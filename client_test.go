@@ -80,7 +80,7 @@ func TestClient_ListN_count(t *testing.T) {
 func TestClient_ListFilter(t *testing.T) {
 	t.Parallel()
 	c := client()
-	ents, err := c.ListFilter("/list-types", func(info os.FileInfo) bool {
+	ents, err := c.ListFilter("/list-types", 0, func(info os.FileInfo) bool {
 		return info.IsDir()
 	})
 	assert.NoError(t, err)
@@ -90,7 +90,7 @@ func TestClient_ListFilter(t *testing.T) {
 func TestClient_ListFolders(t *testing.T) {
 	t.Parallel()
 	c := client()
-	ents, err := c.ListFolders("/list-types")
+	ents, err := c.ListFolders("/list-types", 0)
 	assert.NoError(t, err)
 	assert.Equal(t, 3, len(ents))
 	assert.Equal(t, "one", ents[0].Name())
@@ -99,7 +99,7 @@ func TestClient_ListFolders(t *testing.T) {
 func TestClient_ListFiles(t *testing.T) {
 	t.Parallel()
 	c := client()
-	ents, err := c.ListFiles("/list-types")
+	ents, err := c.ListFiles("/list-types", 0)
 	assert.NoError(t, err)
 	assert.Equal(t, 3, len(ents))
 	assert.Equal(t, "one.txt", ents[0].Name())

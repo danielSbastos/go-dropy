@@ -88,9 +88,9 @@ func (c *Client) List(name string) ([]os.FileInfo, error) {
 	return c.ListN(name, 0)
 }
 
-// ListFilter returns all entries in dir `name` filtered by `filter`.
-func (c *Client) ListFilter(name string, filter func(info os.FileInfo) bool) (ret []os.FileInfo, err error) {
-	ents, err := c.ListN(name, 0)
+// ListFilter returns all entries in dir `name` filtered by `filter` given a number of folder `N`.
+func (c *Client) ListFilter(name string, n int, filter func(info os.FileInfo) bool) (ret []os.FileInfo, err error) {
+	ents, err := c.ListN(name, n)
 	if err != nil {
 		return
 	}
@@ -105,15 +105,15 @@ func (c *Client) ListFilter(name string, filter func(info os.FileInfo) bool) (re
 }
 
 // ListFolders returns all folders in dir `name`.
-func (c *Client) ListFolders(name string) ([]os.FileInfo, error) {
-	return c.ListFilter(name, func(info os.FileInfo) bool {
+func (c *Client) ListFolders(name string, n int) ([]os.FileInfo, error) {
+	return c.ListFilter(name, n, func(info os.FileInfo) bool {
 		return info.IsDir()
 	})
 }
 
 // ListFiles returns all files in dir `name`.
-func (c *Client) ListFiles(name string) ([]os.FileInfo, error) {
-	return c.ListFilter(name, func(info os.FileInfo) bool {
+func (c *Client) ListFiles(name string, n int) ([]os.FileInfo, error) {
+	return c.ListFilter(name, n, func(info os.FileInfo) bool {
 		return !info.IsDir()
 	})
 }
